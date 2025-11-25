@@ -1,8 +1,7 @@
 #include <chrono>
 #include <random>
-#include <iomanip>
 #include <iostream>
-#include <sstream>
+#include <format>
 #include <SFML/Graphics.hpp>
 
 #include "MundoJogo.h"
@@ -10,6 +9,7 @@
 MundoJogo::MundoJogo( Bolinha bolinha, sf::Font fonte )
     :
     bolinhaEmArraste( nullptr ),
+    delta( 0 ),
     gravidade( 2000 ),
     fonte( fonte ),
     gerador( std::chrono::system_clock::now().time_since_epoch().count() ) {
@@ -33,7 +33,7 @@ MundoJogo::MundoJogo( Bolinha bolinha, sf::Font fonte )
 
 }
 
-void MundoJogo::tratarEventos( sf::Event &event, float delta ) {
+void MundoJogo::tratarEventos( sf::Event &event ) {
 
     if ( event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Right ) {
 
@@ -52,27 +52,22 @@ void MundoJogo::tratarEventos( sf::Event &event, float delta ) {
     }
 
     for ( int i = this->bolinhas.size() - 1; i >= 0; i-- ) {
-        bolinhas[i].tratarEventos( event, this, delta );
+        bolinhas[i].tratarEventos( event, this );
     }
 
 }
 
 void MundoJogo::atualizar( float delta, sf::Window &window ) {
 
+    this->delta = delta;
+
     for ( Bolinha &bolinha : this->bolinhas ) {
         bolinha.atualizar( delta, this->gravidade, window );
     }
 
-    std::stringstream ss;
-
-    ss << "FPS: " << std::fixed << std::setprecision( 2 ) << ( 1.0f / delta );
-    textoFPS.setString( ss.str() );
-
-    ss.str( "" );
-    ss.clear();
-
-    ss << "Delta: " << std::fixed << std::setprecision( 3 ) << delta;
-    textoDelta.setString( ss.str() );
+    textoFPS.setString( std::format( "FPS: {:.2f}", 1.0f / delta ) );
+    textoDelta.setString( std::format( "Delta: {:.3f}", delta ) );
+    textoGravidade.setString( std::format( "Gravidade: {:.2f}", this->gravidade ) );
 
 }
 
@@ -81,10 +76,6 @@ void MundoJogo::desenhar( sf::RenderWindow &window ) {
     for ( Bolinha &bolinha : this->bolinhas ) {
         bolinha.desenhar( window, this->fonte );
     }
-
-    std::stringstream ss;
-    ss << "Gravidade: " << std::fixed << std::setprecision( 2 ) << this->gravidade;
-    textoGravidade.setString( ss.str() );
 
     window.draw( textoFPS );
     window.draw( textoDelta );
@@ -102,4 +93,8 @@ void MundoJogo::setBolinhaEmArraste( Bolinha *bolinhaEmArraste ) {
 
 Bolinha* MundoJogo::getBolinhaEmArraste() const {
     return this->bolinhaEmArraste;
+}
+
+float MundoJogo::getDelta() {
+    return this->delta;
 }

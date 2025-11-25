@@ -16,10 +16,13 @@
 
 int main() {
 
-    sf::RenderWindow window = sf::RenderWindow( sf::VideoMode({800, 600}), "Testes SFML - Bolinha" );
+    sf::RenderWindow window = sf::RenderWindow( 
+        sf::VideoMode({800, 600}), 
+        "Testes SFML - Bolinha"
+    );
+    
     window.setFramerateLimit( 60 );
 
-    sf::Clock clock;
     sf::Font fonte;
 
     if ( !fonte.loadFromFile( "resources/fonts/Consolas.ttf" ) ) {
@@ -27,8 +30,9 @@ int main() {
         return EXIT_FAILURE;
     }
 
+    sf::Clock clock;
     Bolinha bolinha{ (float) ( window.getSize().x / 2 ), (float) ( window.getSize().y / 2 ), 50, sf::Color::Blue, 200, 200 };
-    MundoJogo mj( bolinha, fonte );
+    MundoJogo mj{ bolinha, fonte };
 
     while ( window.isOpen() ) {
 
@@ -41,7 +45,7 @@ int main() {
                 window.close();
             }
 
-            mj.tratarEventos( event, delta );
+            mj.tratarEventos( event );
 
         }
 

@@ -21,7 +21,7 @@ Bolinha::Bolinha( float x, float y, float raio, sf::Color cor, float vx, float v
     
 }
 
-void Bolinha::tratarEventos( sf::Event &event, MundoJogo *mj, float delta ) {
+void Bolinha::tratarEventos( sf::Event &event, MundoJogo *mj ) {
 
     if ( mj->getBolinhaEmArraste() == nullptr ) {
 
@@ -56,8 +56,8 @@ void Bolinha::tratarEventos( sf::Event &event, MundoJogo *mj, float delta ) {
             this->x = event.mouseMove.x - this->xOffset;
             this->y = event.mouseMove.y - this->yOffset;
 
-            this->vx = ( this->x - this->xa ) / delta;
-            this->vy = ( this->y - this->ya ) / delta;
+            this->vx = ( this->x - this->xa ) / mj->getDelta();
+            this->vy = ( this->y - this->ya ) / mj->getDelta();
 
             this->xa = this->x;
             this->ya = this->y;

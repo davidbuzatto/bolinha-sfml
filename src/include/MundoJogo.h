@@ -13,6 +13,7 @@ class MundoJogo {
     std::vector<Bolinha> bolinhas;
     Bolinha *bolinhaEmArraste;
 
+    float delta;
     float gravidade;
 
     sf::Font fonte;
@@ -28,11 +29,12 @@ class MundoJogo {
 
 public:
     MundoJogo( Bolinha bolinha, sf::Font fonte );
-    void tratarEventos( sf::Event &event, float delta );
+    void tratarEventos( sf::Event &event );
     void atualizar( float delta, sf::Window &window );
     void desenhar( sf::RenderWindow &window );
     void adicionarBolinha( float x, float y, float raio, sf::Color cor, float vx, float vy );
     void setBolinhaEmArraste( Bolinha *bolinhaEmArraste );
     Bolinha* getBolinhaEmArraste() const;
+    float getDelta();
     
 };
