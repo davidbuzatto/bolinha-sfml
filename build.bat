@@ -72,7 +72,7 @@ GOTO nextStep
 
 :compile
 ECHO Compiling...
-gcc src/*.c -o %CompiledFile% -O1 -Wall -Wextra -Wno-unused-parameter -pedantic-errors -std=c99 -Wno-missing-braces -I./src/include/ -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lSDL3
+g++ src/*.cpp -o %CompiledFile% -O1 -Wall -Wextra -Wno-unused-parameter -pedantic-errors -std=c++20 -Wno-missing-braces -I./src/include/ -IC:/msys64/ucrt64/include -LC:/msys64/ucrt64/lib -lsfml-graphics -lsfml-window -lsfml-system -lopengl32
 GOTO nextStep
 
 :run
