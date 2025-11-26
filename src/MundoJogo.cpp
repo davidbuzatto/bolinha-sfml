@@ -48,7 +48,7 @@ void MundoJogo::tratarEventos( sf::Event &event ) {
     }
     
     if ( event.type == sf::Event::MouseWheelScrolled ) {
-        this->gravidade += 100 * ( event.mouseWheelScroll.delta > 0 ? -1 : 1 );
+        this->gravidade += 100 * event.mouseWheelScroll.delta;
     }
 
     for ( int i = this->bolinhas.size() - 1; i >= 0; i-- ) {
